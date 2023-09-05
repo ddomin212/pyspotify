@@ -27,7 +27,7 @@ RELEVANT_PLAYLISTS = [
 spotify = SpotifyPipeline(RELEVANT_PLAYLISTS)
 spotify.get_playlists()
 
-export(spotify.playlist_data, spotify.playlist_recommend)
+export(spotify.global_track_list, spotify.recommendations)
 
 upload_file("playlist_data.csv", "mage-project-bucket")
 upload_file("playlist_recommend.csv", "mage-project-bucket")
