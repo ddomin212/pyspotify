@@ -12,4 +12,3 @@ This is a pipeline that uses the Spotify API to get information about a user's p
 7. Run the pipeline, you will be prompted to log in to Spotify and authorize the app
 8. The pipeline will run and create 2 CSV files in the GCS bucket, one with the tracks in the user's playlists, and one with the recommended tracks.
 9. You can visualize this in Looker Studio, as I have done [here](https://lookerstudio.google.com/u/3/reporting/f6ec216d-a24d-4d08-9eca-563c10624349/page/p_9kbydi4i9c).
-10. The pipeline will run and create a new playlist for the user, with recommended tracks. (this is still TODO)

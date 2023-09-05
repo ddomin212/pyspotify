@@ -2,7 +2,7 @@ import pandas as pd
 from dotenv import load_dotenv
 
 from spotipyPipe import SpotifyPipeline
-from upload import upload_file
+from utils import export, upload_file
 
 load_dotenv()
 
@@ -27,13 +27,9 @@ RELEVANT_PLAYLISTS = [
 spotify = SpotifyPipeline(RELEVANT_PLAYLISTS)
 spotify.get_playlists()
 
-df = pd.DataFrame(spotify.global_track_list)
-df.to_csv("playlist_data.csv", index=False)
-
-df = pd.DataFrame(spotify.recommendations)
-df.to_csv("playlist_recommend.csv", index=False)
+export(spotify.playlist_data, spotify.playlist_recommend)
 
 upload_file("playlist_data.csv", "mage-project-bucket")
 upload_file("playlist_recommend.csv", "mage-project-bucket")
 
-## TODO: airflow, docstrings, refactoring, tests
+## TODO: airflow, tests, create playlist from recommendations
