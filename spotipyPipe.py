@@ -65,7 +65,7 @@ class SpotifyPipeline:
 
         Returns:
             None"""
-        self.get_playlist_tracks(id)
+        self.get_playlist_tracks(id, name, img)
         self.spotify_recommendation()
         self.global_track_list += self.playlist_track_list
         self.playlist_track_list = []
@@ -124,16 +124,25 @@ class SpotifyPipeline:
         }
         return track_info
 
-    def get_playlist_tracks(self, playlist_id):
+    def get_playlist_tracks(
+        self, playlist_id, playlist_name=None, playlist_img=None
+    ):
         """Get all the tracks from a playlist
 
         Args:
             playlist_id: the id of the playlist
+            playlist_name: the name of the playlist
+            playlist_img: the cover of the playlist on Spotify for nice visuals in dashboard
         """
         tracks_data = self.sp.playlist_tracks(playlist_id)
 
         for track in tqdm(tracks_data["items"]):
-            self.parse_add_track(track["track"], self.playlist_track_list)
+            self.parse_add_track(
+                track["track"],
+                self.playlist_track_list,
+                playlist_name,
+                playlist_img,
+            )
 
     def get_audio_features(self, track_uri):
         """Get the audio features for a track
@@ -163,7 +172,9 @@ class SpotifyPipeline:
         }
         return relevant_features_data
 
-    def parse_add_track(self, track, acc):
+    def parse_add_track(
+        self, track, acc, playlist_name=None, playlist_img=None
+    ):
         """Parse a track object and add it to the accumulator
 
         Args:
@@ -174,6 +185,10 @@ class SpotifyPipeline:
             None
         """
         track_info = self.get_track_info(track)
+
+        if playlist_name and playlist_img:
+            track_info["playlist_name"] = playlist_name
+            track_info["playlist_img"] = playlist_img
 
         relevant_features_data = self.get_audio_features(
             track_info["track_uri"]
