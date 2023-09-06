@@ -25,7 +25,7 @@ RELEVANT_PLAYLISTS = [
 ]
 
 spotify = SpotifyPipeline(RELEVANT_PLAYLISTS)
-spotify.get_playlists()
+spotify.get_recommendations_from_user_playlists(create_playlist=True)
 
 export(spotify.global_track_list, spotify.recommendations)
 

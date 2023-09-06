@@ -29,7 +29,11 @@ class SpotifyPipeline:
             client_id=CLIENT_ID,
             client_secret=CLIENT_SECRET,
             redirect_uri=REDIRECT_URI,
-            scope="user-library-read playlist-read-private playlist-read-collaborative",
+            scope="""user-library-read 
+                    playlist-read-private 
+                    playlist-modify-public 
+                    playlist-modify-private 
+                    playlist-read-collaborative""",
         )
 
         # Create a Spotipy client
@@ -70,7 +74,7 @@ class SpotifyPipeline:
         self.global_track_list += self.playlist_track_list
         self.playlist_track_list = []
 
-    def get_playlists(self):
+    def get_recommendations_from_user_playlists(self, create_playlist=False):
         """Get all the playlists from the user and get recommendations for the relevant ones"""
         playlists_data = self.sp.current_user_playlists(limit=50)
         print(f"Found {playlists_data['total']} playlists")
@@ -85,6 +89,9 @@ class SpotifyPipeline:
                 self.get_recommendations_for_playlist(
                     playlist_name, playlist_id, playlist_img
                 )
+
+        if create_playlist:
+            self.create_recommendation_playlist()
 
     def get_artist_img(self, uri):
         """Get the image of an artist, if none, use a placeholder, used for nice visuals in dashboard
@@ -225,3 +232,22 @@ class SpotifyPipeline:
         )[:20]
         for idx in range(0, 15, 5):
             self.recommend_5_for_5(top_20, idx)
+
+    def create_recommendation_playlist(self):
+        """Create a playlist from the recommendations"""
+        user_id = self.sp.current_user()["id"]
+        playlist = self.sp.user_playlist_create(
+            user=user_id,
+            name="Recommended from pyspotify",
+            public=True,
+            collaborative=False,
+            description="The recommended tracks based on all the playlist you deem as relevant",
+        )
+        playlist_id = playlist["id"]
+        track_uris = [
+            f"spotify:track:{track['track_uri']}"
+            for track in self.recommendations
+        ]
+        self.sp.user_playlist_add_tracks(
+            user=user_id, playlist_id=playlist_id, tracks=track_uris
+        )
