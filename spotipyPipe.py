@@ -90,8 +90,8 @@ class SpotifyPipeline:
                     playlist_name, playlist_id, playlist_img
                 )
 
-        if create_playlist:
-            self.create_recommendation_playlist()
+            if create_playlist:
+                self.create_recommendation_playlist()
 
     def get_artist_img(self, uri):
         """Get the image of an artist, if none, use a placeholder, used for nice visuals in dashboard
