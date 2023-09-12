@@ -22,3 +22,6 @@ jobs:
           pip install -r requirements.txt
       - name: Test with pytest
         run: pytest -vv
+        env:
+            CLIENT_ID: ${{ secrets.CLIENT_ID }}
+            CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
