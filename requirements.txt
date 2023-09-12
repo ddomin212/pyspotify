@@ -2,3 +2,4 @@ spotipy
 pandas
 pytest
 python-dotenv
+tqdm
