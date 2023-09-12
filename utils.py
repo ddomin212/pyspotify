@@ -5,7 +5,7 @@ from gcloud import storage
 from oauth2client.service_account import ServiceAccountCredentials
 
 
-def upload_file(filename, bucket_name):
+def upload_file(filename: str, bucket_name: str) -> None:
     """upload a file to a GCS bucket
 
     Args:
@@ -23,7 +23,10 @@ def upload_file(filename, bucket_name):
     blob.upload_from_filename(filename)
 
 
-def export(playlist_data, playlist_recommend):
+def export(
+    playlist_data: list[dict[str, str | float | int]],
+    playlist_recommend: list[dict[str, str | float | int]],
+) -> None:
     df = pd.DataFrame(playlist_data)
     df.to_csv("playlist_data.csv", index=False)
 

@@ -1,3 +1,4 @@
+import os
 import unittest
 
 import spotipy
@@ -69,6 +70,14 @@ class TestSpotifyPipeline(unittest.TestCase):
                 self.pipeline.get_spotipy_client(), spotipy.client.Spotify
             ),
             True,
+        )
+
+    def test_get_spotipy_client_fail(self):
+        self.pipeline.CLIENT_ID = "fail"
+        self.pipeline.CLIENT_SECRET = "fail"
+        self.assertRaises(
+            spotipy.exceptions.SpotifyException,
+            self.pipeline.get_spotipy_client(),
         )
 
     def test_get_playlist_info(self):
