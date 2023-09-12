@@ -1,8 +1,6 @@
 import os
-import time
 
 import spotipy
-from revChatGPT.V1 import Chatbot
 from spotipy.oauth2 import SpotifyOAuth
 from tqdm import tqdm
 
