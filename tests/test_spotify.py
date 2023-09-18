@@ -1,6 +1,7 @@
 import os
 import unittest
 
+import pytest
 import spotipy
 from dotenv import load_dotenv
 
