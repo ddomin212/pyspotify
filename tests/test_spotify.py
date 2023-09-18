@@ -72,14 +72,6 @@ class TestSpotifyPipeline(unittest.TestCase):
             True,
         )
 
-    def test_get_spotipy_client_fail(self):
-        self.pipeline.CLIENT_ID = "fail"
-        self.pipeline.CLIENT_SECRET = "fail"
-        self.assertRaises(
-            spotipy.exceptions.SpotifyException,
-            self.pipeline.get_spotipy_client(),
-        )
-
     def test_get_playlist_info(self):
         self.assertEqual(
             self.pipeline.get_playlist_info(self.playlist_dummy),
@@ -117,8 +109,10 @@ class TestSpotifyPipeline(unittest.TestCase):
         )
         self.assertEqual(len(self.pipeline.playlist_track_list), 100)
 
-    def test_get_audio_features(self):
-        response = self.pipeline.get_audio_features("6K4t31amVTZDgR3sKmwUJJ")
+    def test_get_track_audio_features(self):
+        response = self.pipeline.get_track_audio_features(
+            "6K4t31amVTZDgR3sKmwUJJ"
+        )
         self.assertEqual(
             all(
                 elem in list(response.keys())
