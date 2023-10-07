@@ -5,3 +5,6 @@
 *.ipynb
 __pycache__/
 /env
+/ignored
+.pytest_cache/
+```

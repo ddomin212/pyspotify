@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 
-from spotipyPipe import SpotifyPipeline
-from utils import export, upload_file
+from classes.pipeline import OOPSpotifyPipeline
+from utils import export
 
 load_dotenv()
 
@@ -23,12 +23,7 @@ RELEVANT_PLAYLISTS = [
     "Vietnam War Music",
 ]
 
-spotify = SpotifyPipeline(RELEVANT_PLAYLISTS)
-spotify.get_recommendations_from_user_playlists(create_playlist=True)
+spotify = OOPSpotifyPipeline(RELEVANT_PLAYLISTS)
+tracks, recommendations = spotify.get_recommendations_from_user_playlists(create_playlist=True)
 
-export(spotify.global_track_list, spotify.recommendations)
-
-upload_file("playlist_data.csv", "mage-project-bucket")
-upload_file("playlist_recommend.csv", "mage-project-bucket")
-
-## TODO: airflow, tests, create playlist from recommendations
+export(tracks, recommendations)
